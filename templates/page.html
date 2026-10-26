@@ -1,0 +1,47 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShieldNex Email Checker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <main class="container">
+        <h1>ShieldNex Email Checker</h1>
+        <p>Check email address formats and domain mail configuration.</p>    <form method="POST">
+        <label for="emails">Enter email addresses (one per line):</label>
+        <textarea id="emails" name="emails" rows="8"
+            placeholder="example@gmail.com&#10;user@example.org" required></textarea>
+        <button type="submit">Check Email Addresses</button>
+    </form>
+
+    {% if results %}
+    <h2>Results</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Email Address</th>
+                <th>Status</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for result in results %}
+            <tr>
+                <td>{{ result.email }}</td>
+                <td>{{ result.status }}</td>
+                <td>{{ result.reason }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+
+    <p class="note">
+        This tool checks email format and domain mail configuration.
+        It does not send emails or guarantee that an individual mailbox exists.
+    </p>
+</main>
+
+</body>
+</html>
