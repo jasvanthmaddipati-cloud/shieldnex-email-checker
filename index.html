@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ShieldNex Email Check</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <main class="wrap">
+    <header>
+      <div class="eyebrow">SHIELDNEX AEROSPACE · SOFTWARE DEVELOPMENT TASK</div>
+      <h1>Email Address Checker</h1>
+      <p class="subtitle">Check address format and domain mail configuration in one place.</p>
+    </header>
+
+    <section class="panel">
+      <form method="post">
+        <label for="emails">Paste email addresses</label>
+        <textarea id="emails" name="emails" rows="7" maxlength="20000" placeholder="person@example.com&#10;another@example.org" required>{{ raw_list }}</textarea>
+        <p class="hint">Enter one address per line, or separate addresses with commas or semicolons. Maximum 100 addresses per check.</p>
+        <button type="submit">Check addresses</button>
+      </form>
+    </section>
+
+    {% if results %}
+    <section class="results">
+      <h2>Results <span>{{ results|length }} item(s)</span></h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Email address</th><th>Result</th><th>Reason</th></tr></thead>
+          <tbody>
+          {% for item in results %}
+            <tr>
+              <td class="email">{{ item.email }}</td>
+              <td><span class="badge {{ item.status|lower|replace(' ', '-') }}">{{ item.status }}</span></td>
+              <td>{{ item.reason }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+    {% endif %}
+
+    <section class="notice">
+      <strong>Important limitation</strong>
+      <p>This tool does not send email and does not verify whether a specific mailbox exists. A domain with mail-server records may still reject a particular address. “Likely to be delivered” is an indication based on domain configuration, not a delivery guarantee.</p>
+    </section>
+    <footer>Privacy-minded by design: addresses are checked during the request and are not saved to a database.</footer>
+  </main>
+</body>
+</html>
